@@ -1,33 +1,8 @@
 #  https://tutorials-raspberrypi.com/raspberry-pi-ultrasonic-sensor-hc-sr04/
-# IT WORKS!!!!!!!
+
 import RPi.GPIO as GPIO
 import time
-
-# GPIO.setmode(GPIO.BCM)
-
-GPIO_TRIGGER = 18
-GPIO_ECHO = 24
-
-# GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
-# GPIO.setup(GPIO_ECHO, GPIO.IN)
-
-class Distance():
-    """ A class just for converting distances"""
-
-    def __init__(self, centimeters):
-        self.centimeters = centimeters
-    
-    @property
-    def inches(self):
-        return self.centimeters / 2.54
-    
-    @property
-    def feet(self):
-        return self.inches / 12
-    
-    @property
-    def meters(self):
-        return self.centimeters / 100;
+from Distance import Distance
 
 class DistanceSensor():
     """A class that will get distance from an hc-sr04 sensor"""

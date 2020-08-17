@@ -1,3 +1,10 @@
+import time
+
+from DistanceSensor import DistanceSensor
+
+GPIO_TRIGGER = 18
+GPIO_ECHO = 24
+
 if __name__ == '__main__':
     try:
         while True:
