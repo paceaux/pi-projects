@@ -1,7 +1,10 @@
 #  https://tutorials-raspberrypi.com/raspberry-pi-ultrasonic-sensor-hc-sr04/
 
+# need GPIO for the fun stuffs
 import RPi.GPIO as GPIO
 import time
+
+# Get a "convenience class" that will convert distances automagically
 from Distance import Distance
 
 class DistanceSensor():
@@ -13,11 +16,13 @@ class DistanceSensor():
         self.setup()
 
     def setup(self):
+        """ sets up the pins and the directionality"""
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.trigger, GPIO.OUT)
         GPIO.setup(self.echo, GPIO.IN)
     
     def getDistance(self):
+        """returns a Distance object """
         GPIO.output(self.trigger, True)
     
         time.sleep(0.00001)
