@@ -3,50 +3,79 @@
 import RPi.GPIO as GPIO
 import time
 
-GPIO.setmode(GPIO.BCM)
+# GPIO.setmode(GPIO.BCM)
 
 GPIO_TRIGGER = 18
 GPIO_ECHO = 24
 
-GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
-GPIO.setup(GPIO_ECHO, GPIO.IN)
+# GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
+# GPIO.setup(GPIO_ECHO, GPIO.IN)
 
-def distance():
-    # set Trigger to HIGH
-    GPIO.output(GPIO_TRIGGER, True)
- 
-    # set Trigger after 0.01ms to LOW
-    time.sleep(0.00001)
-    GPIO.output(GPIO_TRIGGER, False)
- 
-    StartTime = time.time()
-    StopTime = time.time()
- 
-    # save StartTime
-    while GPIO.input(GPIO_ECHO) == 0:
+class Distance():
+    """ A class just for converting distances"""
+
+    def __init__(self, centimeters):
+        self.centimeters = centimeters
+    
+    @property
+    def inches(self):
+        return self.centimeters / 2.54
+    
+    @property
+    def feet(self):
+        return self.inches / 12
+    
+    @property
+    def meters(self):
+        return self.centimeters / 100;
+
+class DistanceSensor():
+    """A class that will get distance from an hc-sr04 sensor"""
+    def __init__(self, triggerPin, echoPin):
+        """Initialize the GPIO pins"""
+        self.trigger = triggerPin
+        self.echo = echoPin
+        self.setup()
+
+    def setup(self):
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.trigger, GPIO.OUT)
+        GPIO.setup(self.echo, GPIO.IN)
+    
+    def getDistance(self):
+        GPIO.output(self.trigger, True)
+    
+        time.sleep(0.00001)
+        GPIO.output(self.trigger, False)
+    
         StartTime = time.time()
- 
-    # save time of arrival
-    while GPIO.input(GPIO_ECHO) == 1:
         StopTime = time.time()
- 
-    # time difference between start and arrival
-    TimeElapsed = StopTime - StartTime
-    # multiply with the sonic speed (34300 cm/s)
-    # and divide by 2, because there and back
-    distance = (TimeElapsed * 34300) / 2
- 
-    return distance
+    
+        while GPIO.input(self.echo) == 0:
+            StartTime = time.time()
+    
+        while GPIO.input(self.echo) == 1:
+            StopTime = time.time()
+    
+        TimeElapsed = StopTime - StartTime
+        distance = Distance((TimeElapsed * 34300) / 2)
+    
+        return distance
+
+    def tearDown(self):
+        GPIO.cleanup()   
  
 if __name__ == '__main__':
     try:
         while True:
-            dist = distance()
-            distInches = dist / 2.54
+            sensor = DistanceSensor(GPIO_TRIGGER, GPIO_ECHO)
+            dist = sensor.getDistance()
+            print ("Measured Distance = %.1f cm" % dist.centimeters)
+            print ("Measured Distance = %.1f inches" % dist.inches)
+            if (dist.feet > 1):
+                print("Measured Distance = %.1f feet" % dist.feet)
 
-            print ("Measured Distance = %.1f cm" % dist)
-            print ("Measured Distance = %.1f inches" % distInches)
-            time.sleep(1)
+            time.sleep(.5)
  
         # Reset by pressing CTRL + C
     except KeyboardInterrupt:
