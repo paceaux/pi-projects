@@ -3,6 +3,7 @@ import time
 import math
 
 class Led:
+    """ Class to represent a single, MONOCHROME LED. Recommended ports are 19, 17 """
     def __init__(self, pin):
         self.pin = pin
         self.isOn = False
