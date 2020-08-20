@@ -1,6 +1,6 @@
 import time
 
-from led import Led
+from Displays.Led import Led
 from Sensors.DistanceSensor import DistanceSensor
 
 # Known working pins for the hcsr04 sensor
