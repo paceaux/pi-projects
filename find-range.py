@@ -2,6 +2,7 @@ import time
 
 from Displays.Led import Led
 from Sensors.DistanceSensor import DistanceSensor
+from Displays.Oled import Oled
 
 # Known working pins for the hcsr04 sensor
 GPIO_TRIGGER = 18 # should be PWM pins: 12, 13, 18, 19
@@ -28,6 +29,7 @@ if __name__ == '__main__':
         # create some Leds
         led1 = Led(19)
         led2 = Led(17)
+        display = Oled()
 
         # Create an infinite loop
         while True:
@@ -37,7 +39,9 @@ if __name__ == '__main__':
 
             # do some stuff
             printDistance(dist1, "left Sensor")
+            
             printDistance(dist2, "right Sensor")
+            display.displayText(["","","Left Sensor: %s in" % round(dist1.inches, 2), "Right Sensor: %s in" % round(dist2.inches)])
             blinkDistance(dist1.inches, led1 )
             blinkDistance(dist2.inches, led2 )
             time.sleep(INTERVAL_TIME)
