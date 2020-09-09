@@ -10,16 +10,16 @@ import subprocess
 class Oled:
     """ It draws an Oled"""
     def __init__(self, RST = 0, width = 128, height = 64):
-        self.display = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
+        self.display = Adafruit_SSD1306.SSD1306_128_64(RST)
         self.width = width
         self.height = height
-
+        self.initDisplay()
 
     def initDisplay(self):
         self.display.begin()
         self.refreshDisplay()
-        self.width = display.width
-        self.height = display.height
+        self.width = self.display.width
+        self.height = self.display.height
 
 
     def getDrawingImage(self):
@@ -57,6 +57,4 @@ class Oled:
         time.sleep(2)
 
 
-oled = Oled()
-
-oled.displayText(["Hey there", "did it work?", "I sure hope so"])
+oled = Oled() 

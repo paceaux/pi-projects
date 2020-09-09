@@ -30,6 +30,7 @@ if __name__ == '__main__':
         led1 = Led(19)
         led2 = Led(17)
         display = Oled()
+        display.initDisplay()
 
         # Create an infinite loop
         while True:
