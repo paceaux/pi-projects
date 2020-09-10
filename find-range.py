@@ -1,7 +1,7 @@
 import time
 
 from Displays.Led import Led
-from Sensors.DistanceSensor import DistanceSensor
+from Sensors.HCSR04 import HCSR04
 from Displays.Oled import Oled
 
 # Known working pins for the hcsr04 sensor
@@ -24,8 +24,8 @@ def blinkDistance(amount, led):
 if __name__ == '__main__':
     try:
         # Create a sensor
-        sensor1 = DistanceSensor(GPIO_TRIGGER, GPIO_ECHO)
-        sensor2 = DistanceSensor(12, 23);
+        sensor1 = HCSR04(GPIO_TRIGGER, GPIO_ECHO)
+        sensor2 = HCSR04(12, 23);
         # create some Leds
         led1 = Led(19)
         led2 = Led(17)

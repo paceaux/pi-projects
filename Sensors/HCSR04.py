@@ -7,7 +7,7 @@ import time
 # Get a "convenience class" that will convert distances automagically
 from Distance import Distance
 
-class DistanceSensor():
+class HCSR04():
     """A class that will get distance from an hc-sr04 sensor"""
     def __init__(self, triggerPin, echoPin):
         """Initialize the GPIO pins"""
