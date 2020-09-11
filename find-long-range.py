@@ -4,7 +4,7 @@
 # sample script to read range values from Maxbotix ultrasonic rangefinder
 
 from time import sleep
-import maxSonarTTY
+from Sensors.MaxSonarTTY import MaxSonarTTY
 
 serialPort = "/dev/ttyS0"
 maxRange = 5000  # change for 5m vs 10m sensor
@@ -12,8 +12,9 @@ sleepTime = 5
 minMM = 9999
 maxMM = 0
 
+sensor = MaxSonarTTY(serialPort)
 while True:
-    mm = maxSonarTTY.measure(serialPort)
+    mm = sensor.measure()
     if mm >= maxRange:
         print("no target")
         sleep(sleepTime)
