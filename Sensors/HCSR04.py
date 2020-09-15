@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import time
 
 # Get a "convenience class" that will convert distances automagically
-from Distance import Distance
+from Utils.Distance import Distance
 
 class HCSR04():
     """A class that will get distance from an hc-sr04 sensor"""
